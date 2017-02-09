@@ -43,7 +43,7 @@ $.getJSON( "https://api.myjson.com/bins/11c9ud", function( data ) {
 $('table').on('click', 'a.button', function(event ) {
     event.preventDefault();
     //alert( "Handler for .click() called." );
-    $.getJSON( "json.php", {
+    $.getJSON( "https://api.myjson.com/bins/11c9ud", {
         name: $(this).attr('data-name'),
         value: $(this).attr('data-value')
     }, function( data ) {
