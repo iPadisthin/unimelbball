@@ -1,4 +1,4 @@
-var jsonObject;
+var jsonObject = {};
 /**
  * take json feed and output status table
  */
