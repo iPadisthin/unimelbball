@@ -1,4 +1,23 @@
 var jsonObject = {};
+
+/**
+ * update the json data stored on myjson.com https://api.myjson.com/bins/11c9ud
+ */
+function updateMyjson(){
+    var jsonString = JSON.stringify(jsonObject)
+    $.ajax({
+        url:"https://api.myjson.com/bins/11c9ud",
+        type:"PUT",
+        data: jsonString,
+        contentType:"application/json; charset=utf-8",
+        dataType:"json",
+        success: function(data, textStatus, jqXHR){
+            jsonObject = data;
+            updateTable();
+        }
+    });
+}
+
 /**
  * take json feed and output status table
  */
@@ -43,22 +62,12 @@ $.getJSON( "https://api.myjson.com/bins/11c9ud", function( data ) {
  * event handler for staus change - attach to table which is not injected else handlers only work once
  */
 $('table').on('click', 'a.button', function(event ) {
-    event.preventDefault();
     //alert( "Handler for .click() called." );
+    event.preventDefault();
     var key = $(this).attr('data-name');
     var value = $(this).attr('data-value');
-    jsonObject.key = value;
-    $.ajax({
-        url:"https://api.myjson.com/bins/11c9ud",
-        type:"PUT",
-        data: jsonObject,
-        contentType:"application/json; charset=utf-8",
-        dataType:"json",
-        success: function(data, textStatus, jqXHR){
-            jsonObject = data;
-            updateTable();
-        }
-    });
+    jsonObject[key] = value;   
+    updateMyjson();
 });
 
 /**
@@ -67,12 +76,10 @@ $('table').on('click', 'a.button', function(event ) {
 $('form').submit(function(event) {
     //alert( "Handler for .submit() called." );
     event.preventDefault();
-    var formvars = $(this).serialize();
-    $.getJSON( "json.php", formvars , function( data ) {
-        updateTable( data );
-    }) .done(function() {
-            $('form input[type="text"]').val('');
-    });
+    var newName = $('#name').val();
+    jsonObject[newName] = "undecided";
+    updateMyjson();
+    $('#name').val('');
 });
 
 /**
@@ -80,4 +87,16 @@ $('form').submit(function(event) {
  */
 $('legend span').click(function() {
     $('.closed').slideToggle();
+});
+
+/**
+ * event handler for reset button
+ */
+$('#reset').click(function(event) {
+    //alert( "Handler for .submit() called." );
+    event.preventDefault();
+    $.each( jsonObject, function( key, val ) {
+        jsonObject[key] = "undecided";
+    });
+    updateMyjson();
 });
