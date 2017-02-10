@@ -34,7 +34,7 @@ $('h2').append(datestring);
  * get json feed of current player status
  */
 $.getJSON( "https://api.myjson.com/bins/11c9ud", function( data ) {
-    updateTable( data );
+    alert( data );
 });
 
 /**
@@ -45,6 +45,7 @@ $('table').on('click', 'a.button', function(event ) {
     //alert( "Handler for .click() called." );
     var key = $(this).attr('data-name');
     var value = $(this).attr('data-value');
+    items.key = value;
     $.ajax({
         url:"https://api.myjson.com/bins/11c9ud",
         type:"PUT",
