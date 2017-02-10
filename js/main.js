@@ -1,7 +1,8 @@
+var jsonObject;
 /**
  * take json feed and output status table
  */
-function updateTable(data){
+function updateTable(){
     var items = [];
     $.each( data, function( key, val ) {
           if(val == "out"){
@@ -34,7 +35,8 @@ $('h2').append(datestring);
  * get json feed of current player status
  */
 $.getJSON( "https://api.myjson.com/bins/11c9ud", function( data ) {
-    alert( data );
+    jsonObject = data;
+    updateTable();
 });
 
 /**
@@ -45,15 +47,16 @@ $('table').on('click', 'a.button', function(event ) {
     //alert( "Handler for .click() called." );
     var key = $(this).attr('data-name');
     var value = $(this).attr('data-value');
-    items.key = value;
+    jsonObject.key = value;
     $.ajax({
         url:"https://api.myjson.com/bins/11c9ud",
         type:"PUT",
-        data:'{"'+key+'":"'+value+'"}',
+        data: jsonObject,
         contentType:"application/json; charset=utf-8",
         dataType:"json",
         success: function(data, textStatus, jqXHR){
-            updateTable( data );
+            jsonObject = data;
+            updateTable();
         }
     });
 });
