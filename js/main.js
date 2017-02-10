@@ -4,7 +4,7 @@ var jsonObject = {};
  */
 function updateTable(){
     var items = [];
-    $.each( data, function( key, val ) {
+    $.each( jsonObject, function( key, val ) {
           if(val == "out"){
               items.push('<tr class="out"><td>' + key + '</td><td>I\'m currently OUT</td><td><a href="#" class="in button" data-value="in" data-name="' + key + '">in</a> <span href="#" class="out button disabled">out</span></td></tr>');
           }
