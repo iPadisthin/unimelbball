@@ -43,11 +43,17 @@ $.getJSON( "https://api.myjson.com/bins/11c9ud", function( data ) {
 $('table').on('click', 'a.button', function(event ) {
     event.preventDefault();
     //alert( "Handler for .click() called." );
-    $.getJSON( "https://api.myjson.com/bins/11c9ud", {
-        name: $(this).attr('data-name'),
-        value: $(this).attr('data-value')
-    }, function( data ) {
-        updateTable( data );
+    var key = $(this).attr('data-name');
+    var value = $(this).attr('data-value');
+    $.ajax({
+        url:"https://api.myjson.com/bins/11c9ud",
+        type:"PUT",
+        data:'{"'+key+'":"'+value+'"}',
+        contentType:"application/json; charset=utf-8",
+        dataType:"json",
+        success: function(data, textStatus, jqXHR){
+            updateTable( data );
+        }
     });
 });
 
